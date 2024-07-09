@@ -1,11 +1,13 @@
 package com.nhjclxc.webflux.controller;
 
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
@@ -49,6 +51,37 @@ public class HelloController {
     public Flux<String> GetHello() {
         return Flux.interval(Duration.ofSeconds(1))
                 .map(sequence -> "Event " + sequence);
+    }
+
+    @GetMapping(value = "/multiplicationTable", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Object> multiplicationTable(int input){
+        return Flux.range(1, 10)
+                .delayElements(Duration.ofSeconds(1))
+//                .doOnNext(i -> SleepUtil.sleepSeconds(1))
+                .doOnNext(i -> System.out.println("react-math-service processing : " + i))
+                .map(i -> i * input);
+    }
+
+    @GetMapping("square/{input}/mono-error")
+    public Mono<Object> monoError(@PathVariable int input) {
+        return  Mono.just(input)
+                .handle((integer, sink) -> {
+                    if (integer >= 10 && integer <= 20)
+                        sink.next(integer);
+                    else
+                        sink.error(new RuntimeException("integer"));
+                })
+                .cast(Object.class);
+//                .flatMap(i -> i)
+    }
+
+
+    @GetMapping("square/{input}/assignment")
+    public Mono<ResponseEntity<Integer>> assignment(@PathVariable int input) {
+        return  Mono.just(input)
+                .filter(i -> i >= 10 && i <= 20)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.badRequest().build());
     }
 
     /*

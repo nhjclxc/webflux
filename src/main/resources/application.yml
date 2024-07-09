@@ -4,3 +4,9 @@ server:
 spring:
   application:
     name: webflux
+  http:
+    encoding:
+      force: true
+      enabled: true
+      charset: UTF-8
+

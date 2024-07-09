@@ -4,6 +4,7 @@ import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.handler.WebFluxResponseStatusExceptionHandler;
 import reactor.core.publisher.Flux;
 
 import java.nio.file.Files;
@@ -32,12 +33,12 @@ public class FileController {
 
     @GetMapping("/stream-file2")
     public Flux<ServerSentEvent<String>> streamFile2() {
-        Path filePath = Paths.get("LICENSE");
+        Path filePath = Paths.get("pom.xml");
         return Flux.using(
                         () -> Files.lines(filePath),
                         Flux::fromStream,
                         BaseStream::close
-                ).delayElements(Duration.ofMillis(new Random().nextInt(300) + 100))
+                ).delayElements(Duration.ofMillis(new Random().nextInt(3000) + 100))
                 .map(data -> ServerSentEvent.builder(data).build());
     }
 
