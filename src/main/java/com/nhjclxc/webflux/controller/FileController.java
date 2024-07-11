@@ -13,6 +13,8 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Random;
 import java.util.stream.BaseStream;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RestController
 public class FileController {
@@ -39,6 +41,16 @@ public class FileController {
                         Flux::fromStream,
                         BaseStream::close
                 ).delayElements(Duration.ofMillis(new Random().nextInt(3000) + 100))
+                .map(data -> ServerSentEvent.builder(data).build());
+    }
+
+    @GetMapping("/stream-file3")
+    public Flux<ServerSentEvent<Integer>> streamFile3() {
+        return Flux.using(
+                        () -> Stream.generate(() -> new Random().nextInt()).limit(5),
+                        Flux::fromStream,
+                        BaseStream::close
+                ).delayElements(Duration.ofMillis(new Random().nextInt(300) + 100))
                 .map(data -> ServerSentEvent.builder(data).build());
     }
 

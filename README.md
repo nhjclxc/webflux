@@ -16,3 +16,7 @@ https://segmentfault.com/a/1190000044156563
         <artifactId>spring-boot-starter-webflux</artifactId>
     </dependency>
 ```
+```java
+Mono 返回0-1个数据时使用，
+Flux 返回1-N个数据时使用
+```

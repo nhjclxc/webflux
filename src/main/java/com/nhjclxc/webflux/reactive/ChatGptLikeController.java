@@ -17,7 +17,7 @@ public class ChatGptLikeController {
         return Flux.just("你好", "世界");
     }
 
-    private final String text = "\"Legal Ent你的ity\" shall mean 阿萨 the union\n";
+    private final String text = "你好，世界。Hello World!";
 
 
     @GetMapping("/chatgpt-like")
