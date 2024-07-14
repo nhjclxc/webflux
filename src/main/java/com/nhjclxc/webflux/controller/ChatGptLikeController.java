@@ -1,4 +1,4 @@
-package com.nhjclxc.webflux.reactive;
+package com.nhjclxc.webflux.controller;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

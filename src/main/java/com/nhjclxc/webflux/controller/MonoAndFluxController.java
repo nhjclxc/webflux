@@ -5,17 +5,14 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
-import java.nio.file.Files;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.BaseStream;
 
 /**
  * @author LuoXianchao
@@ -23,7 +20,7 @@ import java.util.stream.BaseStream;
  */
 @RestController
 @RequestMapping("/mf")
-public class Test1_MonoAndFluxController {
+public class MonoAndFluxController {
 
 //    @GetMapping(value = "/chatgpt-like2", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
 
@@ -65,11 +62,6 @@ public class Test1_MonoAndFluxController {
     public Mono<TestObject> mono1111(){
         return Mono.just(map.get(1)).delayElement(Duration.ofMillis(1000));
     }
-
-//    @GetMapping("/flux1")
-//    public Flux<TestObject> flux1(){
-//        map.values()
-//    }
 
     @GetMapping( value = "/flux2", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<TestObject> flux2(){

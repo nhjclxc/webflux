@@ -1,12 +1,14 @@
 server:
   port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 spring:
   application:
     name: webflux
-  http:
-    encoding:
-      force: true
-      enabled: true
-      charset: UTF-8
-
+  data:
+    mongodb:
+      uri: mongodb://106.14.142.184:27017/webflux

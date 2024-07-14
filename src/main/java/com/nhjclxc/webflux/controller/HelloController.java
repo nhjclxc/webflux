@@ -19,31 +19,15 @@ import java.util.*;
 @RequestMapping("Hello")
 public class HelloController {
 
-    public HelloController() { }
 
-    @GetMapping("/index")
-    public String index() {
-        return "index";
-    }
-    public static void main(String[] args) {
+    @GetMapping("/characters")
+    public Flux<Character> getCharacters() {
+        String text = "This is a demo text for streaming characters.";
+        char[] charArray = text.toCharArray();
 
-        Map<String, String> map = new LinkedHashMap<>();
-        map.put("localDateTime", "localDateTime数据");
-        map.put("localDate", "localDate数据");
-        map.put("localTime", "localTime数据");
-        map.put("date", "date数据");
-        map.put("string", "string数据");
-        map.put("integer", "integer数据");
-        map.put("aFloat", "aFloat数据");
-        map.put("aDouble", "aDouble数据");
-        map.put("aLong", "aLong数据");
-        map.put("bigDecimal", "bigDecimal数据");
-        map.put("aBoolean", "aBoolean数据");
-        List<String> attributeList = new ArrayList<>(map.keySet());
-
-
-        String[] array = attributeList.toArray(new String[0]);
-        System.out.println(array);
+        return Flux.interval(Duration.ofSeconds(1))  // 每隔一秒发出一个递增的长整数
+                .map(index -> charArray[index.intValue()])  // 根据索引获取字符
+                .take(charArray.length);  // 只取字符数组的长度，即所有字符
     }
 
     @GetMapping(value = "/GetHello", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
