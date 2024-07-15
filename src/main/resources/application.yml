@@ -11,9 +11,14 @@ spring:
     name: webflux
   data:
     mongodb:
-      uri: mongodb://localhost:27017/webflux
+      uri: mongodb://106.14.142.184:27017/webflux
   r2dbc:
     # 由springmvc的jdbc协议变为了r2dbcs协议连接 （ Reactive Relational Database Connectivity） ?serverTimezone=GMT%2B8
     url: r2dbcs:mysql://localhost:3306/test?serverZoneId=Asia/Shanghai
     username: root
     password: root123
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 5000
